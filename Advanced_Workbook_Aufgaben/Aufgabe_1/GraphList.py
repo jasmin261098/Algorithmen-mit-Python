@@ -1,17 +1,17 @@
 class GraphList:
     def __init__(self, size):
         self.size = size
-        self.adjust_list = {i: [] for i in range(size)}
+        self.adjacency_list = {i: [] for i in range(size)}
 
     def add_connection(self, a, b):
-        self.adjust_list[a].append(b)
-        self.adjust_list[b].append(a)
+        self.adjacency_list[a].append(b)
+        self.adjacency_list[b].append(a)
     
     def remove_connection(self, a, b):
-        if a in self.adjust_list[b]:
-            self.adjust_list[b].remove(a)
-        if b in self.adjust_list[a]:
-            self.adjust_list[a].remove(b)
+        if a in self.adjacency_list[b]:
+            self.adjacency_list[b].remove(a)
+        if b in self.adjacency_list[a]:
+            self.adjacency_list[a].remove(b)
     
     def has_path(self, start, end):
         visited = set()
@@ -21,7 +21,7 @@ class GraphList:
         if current == target:
             return True
         visited.add(current)
-        for neighbor in self.adjust_list[current]:
+        for neighbor in self.adjacency_list[current]:
             if neighbor not in visited:
                 if self._depth_first_search(neighbor, target, visited):
                     return True

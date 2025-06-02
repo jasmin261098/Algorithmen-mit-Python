@@ -1,15 +1,26 @@
 class GraphMatrix:
     def __init__(self, size):
-        self.size = size
-        self.matrix = [[0] * size for _ in range(size)]
+        self.adjacency_matrix = [[0] * size for _ in range(size)]
     
     def add_connection(self, a, b):
-        self.matrix[a][b] = 1
-        self.matrix[b][a] = 1
+        if self.adjacency_matrix[a][b] == 1:
+            print("Kante existiert bereits.")
+        else:
+            self.adjacency_matrix[a][b] = 1
+        if self.adjacency_matrix[b][a] == 1:
+            print("Kante existiert bereits.")
+        else:
+            self.adjacency_matrix[b][a] = 1
     
     def remove_connection(self, a, b):
-        self.matrix[a][b] = 0
-        self.matrix[b][a] = 0
+        if self.adjacency_matrix[a][b] == 0:
+            print("Kante existiert bereits.")
+        else:
+            self.adjacency_matrix[a][b] = 0
+        if self.adjacency_matrix[b][a] == 0:
+            print("Kante existiert bereits.")
+        else:
+            self.adjacency_matrix[b][a] = 0
     
     def has_path(self, start, end):
         visited = set()
@@ -19,11 +30,11 @@ class GraphMatrix:
         if current == target:
             return True
         visited.add(current)
-        for i, is_connected in enumerate(self.matrix[current]):
-            if is_connected and i not in visited:
-                if self._depth_first_search(i, target, visited):
+        for neighbor, is_connected in enumerate(self.adjacency_matrix[current]):
+            if is_connected and neighbor not in visited:
+                if self._depth_first_search(neighbor, target, visited):
                     return True
-                return False
+        return False
 
 #Test
 if __name__ == "__main__":
